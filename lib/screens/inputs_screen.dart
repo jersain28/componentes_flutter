@@ -103,7 +103,6 @@ class _InputsScreenState extends State<InputsScreen> {
           onChanged: (value){
             setState(() {
               slidervalue = value; 
-              print('Se cambio el slider: $slidervalue');
             });
           }),
       ],
