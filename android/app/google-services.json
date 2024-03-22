@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "234441748902",
+    "project_id": "componentes-eca63",
+    "storage_bucket": "componentes-eca63.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234441748902:android:9595168ebd9bf96a3edf67",
+        "android_client_info": {
+          "package_name": "com.example.practica3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7czAhl94Ma5sOzYYI8nA60Q940vmXsSo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

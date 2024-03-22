@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:practica3/models/data.dart';
+import 'package:practica3/screens/data_screen.dart';
 import 'package:practica3/screens/home_screen.dart';
 import 'package:practica3/screens/image_screen.dart';
 import 'package:practica3/screens/infinite_scroll_screen.dart';
@@ -13,13 +16,15 @@ class InputsScreen extends StatefulWidget {
 }
 
 class _InputsScreenState extends State<InputsScreen> {
+  String? nombre;
   bool switchValue = false; // controlar el widget switch
   double slidervalue = 0.0;
-  int radioSelected = 0;
+  String? radioSelected;
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
   int indexNavigation = 0;
+  
 
   openScreen(int index, BuildContext context){
     MaterialPageRoute ruta = MaterialPageRoute(builder: (context) => const HomeScreen());
@@ -28,14 +33,20 @@ class _InputsScreenState extends State<InputsScreen> {
         ruta = MaterialPageRoute(builder: (context) => const HomeScreen());
         break;
       case 1:
-        ruta = MaterialPageRoute(builder: (context) => const InfiniteScrollScreen());
+        ruta = MaterialPageRoute(builder: (context) => const InputsScreen());
         break;
       case 2:
-        ruta = MaterialPageRoute(builder: (context) => const NotificationsScreen());
+        ruta = MaterialPageRoute(builder: (context) => const InfiniteScrollScreen());
         break;
       case 3:
+        ruta = MaterialPageRoute(builder: (context) => const NotificationsScreen());
+        break;
+      case 4:
         ruta = MaterialPageRoute(builder: (context) => const ImagesScreen());
         break;
+      case 5: // Comportamiento aplicable a solo telefono
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        
     }
     setState(() {
       indexNavigation = index;
@@ -63,11 +74,14 @@ class _InputsScreenState extends State<InputsScreen> {
               style: AppTheme.lightTheme.textTheme.headlineLarge,
             ),
             entradasCheck(),
-            const ElevatedButton(
-                  onPressed: null, 
-                  child: Text(
+            ElevatedButton(
+                onPressed: (){
+                  Data data = Data(nomb: nombre!, gusto: switchValue, calif: slidervalue.round(), movil: radioSelected!, nav: isChecked1, emul: isChecked2, phone: isChecked3);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>  DataScreen(datos: data)));
+                },
+                child: const Text(
                      'Guardar',
-                  )
+                ),
                 ),
               ],
             ),
@@ -82,6 +96,10 @@ class _InputsScreenState extends State<InputsScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Inicio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.input),
+              label: 'Entradas',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.list),
@@ -112,6 +130,7 @@ class _InputsScreenState extends State<InputsScreen> {
             labelText: 'Escribe tu nombre',
             labelStyle: AppTheme.lightTheme.textTheme.headlineLarge,
         ),
+        onChanged: (text) => nombre = text,
      );
   }
 
@@ -177,7 +196,7 @@ class _InputsScreenState extends State<InputsScreen> {
           leading: Transform.scale(
             scale: 1.5,
             child: Radio(
-              value: 1,
+              value: 'Kotlin',
               groupValue: radioSelected,
               onChanged: (value){
                 setState(() {
@@ -195,7 +214,7 @@ class _InputsScreenState extends State<InputsScreen> {
           leading: Transform.scale(
             scale: 1.5,
             child: Radio(
-              value: 2,
+              value: 'Flutter',
               groupValue: radioSelected,
               onChanged: (value){
                 setState(() {
